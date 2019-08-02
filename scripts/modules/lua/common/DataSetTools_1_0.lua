@@ -127,3 +127,13 @@ function DataSetTools:update_row(data_set, rec, row_count)
 	end
 end
 
+function DataSetTools:insert_row(data_set, rec)
+	local k, v
+	local row_count = #data_set[1] + 1
+	for col_count=1, #rec['columns'] do
+		k = rec['columns'][col_count]
+		v = rec[k]
+		data_set[data_set['col_idx'][k]][row_count] = v
+	end
+end
+
