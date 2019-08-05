@@ -137,3 +137,90 @@ function DataSetTools:insert_row(data_set, rec)
 	end
 end
 
+function DataSetTools:sort_data_set(data_set, column, order)
+	local col_idx = data_set['col_idx'][column]
+	local extr_pos, extr, length, tmp
+	
+	if order == 'desc' then
+		for i=1, #data_set[1] - 1 do
+			extr = data_set[col_idx][1]
+			extr_pos = 1
+			length = #data_set[1] - i + 1
+			for j=2, length do
+				if extr > data_set[col_idx][j] then
+					extr = data_set[col_idx][j]
+					extr_pos = j
+				end
+			end
+			for col_cnt=1, #data_set['columns'] do
+				tmp = data_set[col_cnt][extr_pos]
+				data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
+				data_set[col_cnt][length] = tmp
+			end
+		end
+	else	
+		for i=1, #data_set[1] - 1 do
+			extr = data_set[col_idx][1]
+			extr_pos = 1
+			length = #data_set[1] - i + 1
+			for j=2, length do
+				if extr < data_set[col_idx][j] then
+					extr = data_set[col_idx][j]
+					extr_pos = j
+				end
+			end
+			for col_cnt=1, #data_set['columns'] do
+				tmp = data_set[col_cnt][extr_pos]
+				data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
+				data_set[col_cnt][length] = tmp
+			end
+		end
+	end
+end
+
+function DataSetTools:sort_data_set_index(data_set, column, order)
+	local col_idx = data_set['col_idx'][column]
+	local extr_pos, extr, length, tmp
+	local index = {}
+	
+	if order == 'desc' then
+		for i=1, #data_set[1] - 1 do
+			extr = data_set[col_idx][1]
+			extr_pos = 1
+			length = #data_set[1] - i + 1
+			for j=2, length do
+				if extr > data_set[col_idx][j] then
+					extr = data_set[col_idx][j]
+					extr_pos = j
+				end
+			end
+			-- print(extr_pos)
+			-- for col_cnt=1, #data_set['columns'] do
+				-- tmp = data_set[col_cnt][extr_pos]
+				-- data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
+				-- data_set[col_cnt][length] = tmp
+			-- end
+		end
+	else	
+		for i=1, #data_set[1] - 1 do
+			extr = data_set[col_idx][1]
+			extr_pos = 1
+			length = #data_set[1] - i + 1
+			for j=2, length do
+				if extr < data_set[col_idx][j] then
+					extr = data_set[col_idx][j]
+					extr_pos = j
+				end
+			end
+			print(extr_pos)
+			-- for col_cnt=1, #data_set['columns'] do
+				-- tmp = data_set[col_cnt][extr_pos]
+				-- data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
+				-- data_set[col_cnt][length] = tmp
+			-- end
+		end
+	end
+	
+	return index
+end
+
