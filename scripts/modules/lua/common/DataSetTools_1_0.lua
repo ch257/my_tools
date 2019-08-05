@@ -178,46 +178,57 @@ function DataSetTools:sort_data_set(data_set, column, order)
 	end
 end
 
+
+function DataSetTools:copy_column(data_set, column, index)
+	local col_idx = data_set['col_idx'][column]
+	local ds_col = {}
+	for i=1, #data_set[1] do
+		table.insert(ds_col, data_set[col_idx][i])
+		table.insert(index, i)
+	end
+	
+	return ds_col
+end
+
 function DataSetTools:sort_data_set_index(data_set, column, order)
 	local col_idx = data_set['col_idx'][column]
 	local extr_pos, extr, length, tmp
 	local index = {}
+	local ds_col = self:copy_column(data_set, column, index)
 	
 	if order == 'desc' then
-		for i=1, #data_set[1] - 1 do
-			extr = data_set[col_idx][1]
+		for i=1, #ds_col - 1 do
+			extr = ds_col[1]
 			extr_pos = 1
-			length = #data_set[1] - i + 1
+			length = #ds_col - i + 1
 			for j=2, length do
-				if extr > data_set[col_idx][j] then
-					extr = data_set[col_idx][j]
+				if extr < ds_col[j] then
+					extr = ds_col[j]
 					extr_pos = j
 				end
 			end
-			-- print(extr_pos)
-			-- for col_cnt=1, #data_set['columns'] do
-				-- tmp = data_set[col_cnt][extr_pos]
-				-- data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
-				-- data_set[col_cnt][length] = tmp
-			-- end
+			ds_col[extr_pos] = ds_col[length]
+			ds_col[length] = extr
+			tmp = index[extr_pos]
+			index[extr_pos] = index[length]
+			index[length] = tmp
 		end
 	else	
-		for i=1, #data_set[1] - 1 do
-			extr = data_set[col_idx][1]
+		for i=1, #ds_col - 1 do
+			extr = ds_col[1]
 			extr_pos = 1
-			length = #data_set[1] - i + 1
+			length = #ds_col - i + 1
 			for j=2, length do
-				if extr < data_set[col_idx][j] then
-					extr = data_set[col_idx][j]
+				if extr > ds_col[j] then
+					extr = ds_col[j]
 					extr_pos = j
 				end
 			end
-			print(extr_pos)
-			-- for col_cnt=1, #data_set['columns'] do
-				-- tmp = data_set[col_cnt][extr_pos]
-				-- data_set[col_cnt][extr_pos] = data_set[col_cnt][length]
-				-- data_set[col_cnt][length] = tmp
-			-- end
+			ds_col[extr_pos] = ds_col[length]
+			ds_col[length] = extr
+			tmp = index[extr_pos]
+			index[extr_pos] = index[length]
+			index[length] = tmp
 		end
 	end
 	
