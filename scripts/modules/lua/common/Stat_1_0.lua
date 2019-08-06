@@ -11,9 +11,8 @@ end
 
 function Stat:hist(data_set, column, window)
 	local ds_tools = DataSetTools:new(self.errors)
-	local index = {}
-	local column = ds_tools:copy_column(data_set, '<BC/BA>', index)
-	local sorted_column = ds_tools:sort_column(column)
+	local column = ds_tools:copy_column(data_set, '<BC/BA>')
+	ds_tools:sort_column(column)
 	local hist = ds_tools:create_data_set({'<X>','<Y>'}, self.stat_data_format)
 	local hist_rec = ds_tools:create_rec({'<X>','<Y>'}, self.stat_data_format)
 	

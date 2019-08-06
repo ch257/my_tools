@@ -179,12 +179,11 @@ function DataSetTools:sort_data_set(data_set, column, order)
 end
 
 
-function DataSetTools:copy_column(data_set, column, index)
+function DataSetTools:copy_column(data_set, column)
 	local col_idx = data_set['col_idx'][column]
 	local ds_col = {}
 	for i=1, #data_set[1] do
 		table.insert(ds_col, data_set[col_idx][i])
-		table.insert(index, i)
 	end
 	
 	return ds_col
@@ -193,8 +192,13 @@ end
 function DataSetTools:sort_data_set_index(data_set, column, order)
 	local col_idx = data_set['col_idx'][column]
 	local extr_pos, extr, length, tmp
+	
 	local index = {}
-	local ds_col = self:copy_column(data_set, column, index)
+	local ds_col = {}
+	for i=1, #data_set[1] do
+		table.insert(ds_col, data_set[col_idx][i])
+		table.insert(index, i)
+	end
 	
 	if order == 'desc' then
 		for i=1, #ds_col - 1 do
@@ -268,6 +272,5 @@ function DataSetTools:sort_column(column, order)
 		end
 	end
 	
-	return index
 end
 
