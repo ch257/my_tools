@@ -20,7 +20,6 @@ function Stat:hist(data_set, column, window)
 	local end_x = column[#column] - column[#column] % window + window
 	local next_x
 	
-	-- print(tostring(column[1]) .. ' ' .. tostring(column[#column]))
 	local col_cnt = 1
 	local freq = 0
 	while col_cnt <= #column and start_x <= end_x do
