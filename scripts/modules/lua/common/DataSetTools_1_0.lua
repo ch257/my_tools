@@ -202,7 +202,7 @@ function DataSetTools:sort_data_set_index(data_set, column, order)
 			extr_pos = 1
 			length = #ds_col - i + 1
 			for j=2, length do
-				if extr < ds_col[j] then
+				if extr > ds_col[j] then
 					extr = ds_col[j]
 					extr_pos = j
 				end
@@ -219,7 +219,7 @@ function DataSetTools:sort_data_set_index(data_set, column, order)
 			extr_pos = 1
 			length = #ds_col - i + 1
 			for j=2, length do
-				if extr > ds_col[j] then
+				if extr < ds_col[j] then
 					extr = ds_col[j]
 					extr_pos = j
 				end
@@ -229,6 +229,42 @@ function DataSetTools:sort_data_set_index(data_set, column, order)
 			tmp = index[extr_pos]
 			index[extr_pos] = index[length]
 			index[length] = tmp
+		end
+	end
+	
+	return index
+end
+
+function DataSetTools:sort_column(column, order)
+	local extr_pos, extr, length
+	
+	if order == 'desc' then
+		for i=1, #column - 1 do
+			extr = column[1]
+			extr_pos = 1
+			length = #column - i + 1
+			for j=2, length do
+				if extr > column[j] then
+					extr = column[j]
+					extr_pos = j
+				end
+			end
+			column[extr_pos] = column[length]
+			column[length] = extr
+		end
+	else	
+		for i=1, #column - 1 do
+			extr = column[1]
+			extr_pos = 1
+			length = #column - i + 1
+			for j=2, length do
+				if extr < column[j] then
+					extr = column[j]
+					extr_pos = j
+				end
+			end
+			column[extr_pos] = column[length]
+			column[length] = extr
 		end
 	end
 	
