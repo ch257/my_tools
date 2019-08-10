@@ -194,13 +194,17 @@ function CSVFile:read_data_set(file_path, file_format)
 	return data_set
 end
 
-function CSVFile:write_data_set(data_set, file_path, file_format)
+function CSVFile:write_data_set(data_set, columns, file_path, file_format)
 	local string_tools = StringTools:new(errors)
 	local file = RWFile:new(self.errors)
 	local line = ''
 	local column_separator = file_format['column_separator']
 	
-	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
+	if columns == nil or #columns == 0 then
+		local columns = data_set['columns']
+	end
+	
+	local format_str = self:define_format_str_functions(columns, file_format)
 	
 	file:open_file(file_path, 'w')
 	if self.errors.error_occured then
@@ -208,8 +212,8 @@ function CSVFile:write_data_set(data_set, file_path, file_format)
 	end
 	
 	if file_format['has_header'] == '1' then
-		for col_cnt=1, #data_set['columns'] do
-			line = line .. tostring(data_set['columns'][col_cnt]) .. column_separator
+		for col_cnt=1, #columns do
+			line = line .. tostring(columns[col_cnt]) .. column_separator
 		end
 		if line ~= '' then
 			file:write_line(string.sub(line, 1, -(string.len(column_separator) + 1)))
@@ -219,8 +223,9 @@ function CSVFile:write_data_set(data_set, file_path, file_format)
 	if data_set[1] ~= nil then
 		for row_cnt=1, #data_set[1] do
 			line = ''
-			for col_cnt=1, #data_set['columns'] do
-				line = line .. format_str[col_cnt](data_set[col_cnt][row_cnt]) .. column_separator
+			for col_cnt=1, #columns do
+				local col_idx = data_set['col_idx'][columns[col_cnt]]
+				line = line .. format_str[col_idx](data_set[col_idx][row_cnt]) .. column_separator
 			end
 			if line ~= '' then
 				file:write_line(string.sub(line, 1, -(string.len(column_separator) + 1)))
@@ -231,13 +236,17 @@ function CSVFile:write_data_set(data_set, file_path, file_format)
 	file:close_file()
 end
 
-function CSVFile:print_data_set(data_set, file_format)
+function CSVFile:print_data_set(data_set, columns, file_format)
 	local line = ''
 	local column_separator = file_format['column_separator']
 	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
 	
-	for col_cnt=1, #data_set['columns'] do
-		line = line .. tostring(data_set['columns'][col_cnt]) .. column_separator
+	if columns == nil or #columns == 0 then
+		local columns = data_set['columns']
+	end
+	
+	for col_cnt=1, #columns do
+		line = line .. tostring(columns[col_cnt]) .. column_separator
 	end
 	if line ~= '' then
 		print(string.sub(line, 1, -(string.len(column_separator) + 1)))
@@ -246,8 +255,9 @@ function CSVFile:print_data_set(data_set, file_format)
 	if data_set[1] ~= nil then
 		for row_cnt=1, #data_set[1] do
 			line = ''
-			for col_cnt=1, #data_set['columns'] do
-				line = line .. format_str[col_cnt](data_set[col_cnt][row_cnt]) .. column_separator
+			for col_cnt=1, #columns do
+				local col_idx = data_set['col_idx'][columns[col_cnt]]
+				line = line .. format_str[col_idx](data_set[col_idx][row_cnt]) .. column_separator
 			end
 			if line ~= '' then
 				print(string.sub(line, 1, -(string.len(column_separator) + 1)))
@@ -255,4 +265,12 @@ function CSVFile:print_data_set(data_set, file_format)
 			-- break
 		end
 	end
+end
+
+function CSVFile:create_csv_iterator(file_path, file_format, columns)
+	local csv_file = CSVFile:new(self.errors)
+	local data_set = csv_file:read_data_set(file_path, file_format)
+	local ds_iterator = DataSetIterator:new(self.errors, data_set, columns)
+	
+	return ds_iterator
 end
