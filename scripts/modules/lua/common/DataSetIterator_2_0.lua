@@ -1,8 +1,9 @@
 DataSetIterator = {}
 
 function DataSetIterator:new(errors, data_set, columns, index)
+	local columns = columns
 	if columns == nil or #columns == 0 then
-		local columns = data_set['columns']
+		columns = data_set['columns']
 	end
 	newObj = {
 		errors = errors,

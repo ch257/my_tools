@@ -200,8 +200,9 @@ function CSVFile:write_data_set(data_set, columns, file_path, file_format)
 	local line = ''
 	local column_separator = file_format['column_separator']
 	
+	local columns = columns
 	if columns == nil or #columns == 0 then
-		local columns = data_set['columns']
+		columns = data_set['columns']
 	end
 	
 	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
@@ -241,8 +242,9 @@ function CSVFile:print_data_set(data_set, columns, file_format)
 	local column_separator = file_format['column_separator']
 	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
 	
+	local columns = columns
 	if columns == nil or #columns == 0 then
-		local columns = data_set['columns']
+		columns = data_set['columns']
 	end
 	
 	for col_cnt=1, #columns do
