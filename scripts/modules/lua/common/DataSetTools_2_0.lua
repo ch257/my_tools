@@ -102,7 +102,7 @@ function DataSetTools:create_data_set(columns, ds_format)
 	return data_set
 end
 
-function DataSetTools:add_cols(cols, col_types, data_set)
+function DataSetTools:add_columns(data_set, cols, col_types)
 	local old_col_count = #data_set['columns']
 	local new_col_count
 	for col_count=1, #cols do
@@ -118,12 +118,13 @@ function DataSetTools:add_cols(cols, col_types, data_set)
 	end
 end
 
-function DataSetTools:update_row(data_set, rec, row_count)
-	local k, v
-	for col_count=1, #rec['columns'] do
-		k = rec['columns'][col_count]
+function DataSetTools:update_row(data_set, rec, columns, row_count)
+	local k, v, col_idx
+	for col_count=1, #columns do
+		k = columns[col_count]
 		v = rec[k]
-		data_set[data_set['col_idx'][k]][row_count] = v
+		col_idx = data_set['col_idx'][k]
+		data_set.set[col_idx](row_count, v)
 	end
 end
 

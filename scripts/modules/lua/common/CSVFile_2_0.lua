@@ -204,7 +204,7 @@ function CSVFile:write_data_set(data_set, columns, file_path, file_format)
 		local columns = data_set['columns']
 	end
 	
-	local format_str = self:define_format_str_functions(columns, file_format)
+	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
 	
 	file:open_file(file_path, 'w')
 	if self.errors.error_occured then
