@@ -13,8 +13,8 @@ function Stat:hist(data_set, column, window)
 	local ds_tools = DataSetTools:new(self.errors)
 	local column = ds_tools:copy_column(data_set, '<BC/BA>')
 	ds_tools:sort_column(column)
-	local hist = ds_tools:create_data_set({'<X>','<Y>'}, self.stat_data_format)
-	local hist_rec = ds_tools:create_rec({'<X>','<Y>'}, self.stat_data_format)
+	local hist = ds_tools:create_data_set({'<X>','<FREQ>','<PERC>'}, self.stat_data_format)
+	local hist_rec = {}
 	
 	local start_x = column[1] - column[1] % window
 	local end_x = column[#column] - column[#column] % window + window
@@ -30,8 +30,9 @@ function Stat:hist(data_set, column, window)
 			freq = freq + 1
 		end
 		
-		hist_rec.set['<X>'](next_x)
-		hist_rec.set['<Y>'](freq)
+		hist_rec['<X>'] = next_x
+		hist_rec['<FREQ>'] = freq
+		hist_rec['<PERC>'] = freq/#column * 100
 		ds_tools:insert_row(hist, hist_rec)
 		
 		start_x = next_x
