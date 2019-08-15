@@ -29,4 +29,5 @@ class FileLinesIterator:
 	def next_line():
 		line = self.line
 		self:read_line()
+		print(line)
 		return line

@@ -45,7 +45,7 @@ class RWini:
 			# self.settings[mem_section][param] = value
 		# end
 	# end
-	# ini_file_iterator:close_file()
+		ini_file_iterator.close_file()
 	# self.settings['ini_file_path'] = self.settings['ini_file_path'] .. ini_file_path .. ';'
 		return self.settings
 
