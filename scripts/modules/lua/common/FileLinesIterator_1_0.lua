@@ -27,11 +27,11 @@ function FileLinesIterator:open_file(file_path)
 	end
 end
 
-function FileLinesIterator:close_file(desc)
+function FileLinesIterator:close_file()
 	self.file:close_file()
 end
 
-function FileLinesIterator:next_line(desc)
+function FileLinesIterator:next_line()
 	local line = self.line
 	self:read_line()
 	return line

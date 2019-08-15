@@ -2,7 +2,7 @@
 
 class Errors:
 	def __init__(self):
-		self.errors = [],
+		self.errors = []
 		self.error_occured = False
 		
 	def raise_error(self, description):

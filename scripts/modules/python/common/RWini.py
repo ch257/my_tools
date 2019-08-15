@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 
 from modules.python.common.Errors import *
-from modules.python.common.RWFile import *
+from modules.python.common.FileLinesIterator import *
 
 class RWini:
 
@@ -11,9 +11,7 @@ class RWini:
 		self.settings['ini_file_path'] = ''
 
 	def parse_line(self, line):
-		section = None
-		param = None
-		value = None
+		section, param, value = None, None, None
 		line = line.rstrip(' \t').lstrip(' \t')
 		line = line[0:line.find(';')]
 		if line == '':
@@ -25,13 +23,15 @@ class RWini:
 				value = line[eq_smb_pos + 1:].lstrip(' \t')
 		return section, param, value
 
-	def read_settings(ini_file_path):
-	# local ini_file_iterator = FileLinesIterator:new(self.errors)
-	# ini_file_iterator:open_file(ini_file_path)
-	# local section, param, value, mem_section
+	def read_settings(self, ini_file_path):
+		ini_file_iterator = FileLinesIterator(self.errors)
+		ini_file_iterator.open_file(ini_file_path)
+		section, param, value, mem_section = None, None, None, None
 
-	# while not ini_file_iterator.eof do
-		# line = ini_file_iterator:next_line()
+		while not ini_file_iterator.eof:
+			# break
+			line = ini_file_iterator.next_line()
+			print(line)
 		# section, param, value = self:parse_line(line)
 		# if section ~= nil then
 			# if self.settings[section] == nil then
