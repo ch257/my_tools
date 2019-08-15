@@ -7,15 +7,18 @@ class RWFile:
 		self.errors = errors
 		self.file_handler = None
 
-	def open_file(self, file_path, mode):
+	def open_file(self, file_path, mode, encoding='utf-8'):
 		try:
-			self.file_handler = open(path, mode, encoding = encoding)
+			self.file_handler = open(file_path, mode, encoding = encoding)
 		except Exception as e:
 			self.errors.raise_error('Can\'t open file "' + file_path + '"') 
 
 	def read_line(self):
 		line = self.file_handler.readline()
-		return line
+		if line == '':
+			return None
+		else:	
+			return line.rstrip('\n')
 	
 	def write_line(self, line):
 		self.file_handler.write(line + "\n")

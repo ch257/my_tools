@@ -15,8 +15,10 @@ class Template:
 	def read_settings(self, arguments):
 		rw_ini = RWini(self.errors)
 		script_file_folder = (re.match(".*\\\\", sys.argv[0])).group(0)
+		print(sys.argv[0])
 		for i in range(1, len(arguments)):
-			ini_file_path = script_file_folder + "..\\" + arguments[i]
+			# ini_file_path = script_file_folder + "..\\" + arguments[i]
+			ini_file_path = arguments[i]
 			rw_ini.read_settings(ini_file_path)
 		
 	# rw_ini:copy_settings(rw_ini.settings, self.settings, nil)

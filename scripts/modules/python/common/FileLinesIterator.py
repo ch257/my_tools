@@ -13,7 +13,7 @@ class FileLinesIterator:
 
 	def read_line(self):
 		self.line = self.file.read_line()
-		if self.line == '':
+		if self.line == None:
 			self.eof = True
 
 	def open_file(self, file_path):
@@ -24,10 +24,9 @@ class FileLinesIterator:
 			self.read_line()
 
 	def close_file(self):
-		self.file:close_file()
+		self.file.close_file()
 
-	def next_line():
+	def next_line(self):
 		line = self.line
-		self:read_line()
-		print(line)
+		self.read_line()
 		return line
