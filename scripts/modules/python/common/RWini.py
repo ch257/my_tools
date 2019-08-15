@@ -12,7 +12,7 @@ class RWini:
 
 	def parse_line(self, line):
 		section, param, value = None, None, None
-		line = line.rstrip(' \t').lstrip(' \t')
+		# line = line.rstrip(' \t').lstrip(' \t')
 		line = line[0:line.find(';')]
 		if line == '':
 			if line[0:1] == '[' and line[-1:] == ']':
@@ -31,8 +31,9 @@ class RWini:
 		while not ini_file_iterator.eof:
 			# break
 			line = ini_file_iterator.next_line()
-			print(line)
-		# section, param, value = self:parse_line(line)
+			section, param, value = self.parse_line(line)
+			print(param)
+			
 		# if section ~= nil then
 			# if self.settings[section] == nil then
 				# self.settings[section] = {}
