@@ -1,6 +1,12 @@
+# -*- coding: utf-8 -*
+
+from modules.python.common.Errors import *
+
 class Template:
 
 	def __init__(self):
+		self.errors = Errors()
+		self.settings = []
 		pass
 
 	def read_settings(self, arguments):
@@ -18,5 +24,5 @@ class Template:
 		pass
 
 	def main(self, arguments):
-		self:read_settings(arguments)
+		self.read_settings(arguments)
 		return True
