@@ -2,3 +2,5 @@
 _git.vbs
 bin/
 data/output/
+scripts/modules/python/__pycache__/
+scripts/modules/python/common/__pycache__/

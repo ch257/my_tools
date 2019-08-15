@@ -10,7 +10,7 @@ class Template:
 		pass
 
 	def read_settings(self, arguments):
-	# local rw_ini = RWini:new(self.errors)
+		rw_ini = RWini(self.errors)
 	# for i = 1, #arguments do
 		# local ini_file_path = script_file_folder .. "..\\" .. arguments[i]
 		# rw_ini:read_settings(ini_file_path)
