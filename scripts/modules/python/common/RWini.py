@@ -35,24 +35,21 @@ class RWini:
 		while not ini_file_iterator.eof:
 			line = ini_file_iterator.next_line()
 			section, param, value = self.parse_line(line)
-		# if section ~= nil then
-			# if self.settings[section] == nil then
-				# self.settings[section] = {}
-				# mem_section = section
-			# else
-				# mem_section = section
-			# end
-		# end
-		# if self.settings[mem_section] ~= nil and param ~= nil and value ~= nil then
-			# self.settings[mem_section][param] = value
-		# end
-	# end
-			if cnt == 3:
-				break
-			cnt = cnt + 1
+			if section != None:
+				if self.settings.get(section) == None:
+					self.settings[section] = {}
+					mem_section = section
+				else:
+					mem_section = section
+			if self.settings.get(mem_section) != None and param != None and value != None:
+				self.settings[mem_section][param] = value
+			
+			# if cnt == 3:
+				# break
+			# cnt = cnt + 1
 			
 		ini_file_iterator.close_file()
-	# self.settings['ini_file_path'] = self.settings['ini_file_path'] .. ini_file_path .. ';'
+		self.settings['ini_file_path'] = self.settings['ini_file_path'] + ini_file_path + ';'
 		return self.settings
 
 # function RWini:get_param(section, param)
