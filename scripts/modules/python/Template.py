@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*
 
 from modules.python.common.Errors import *
+from modules.python.common.RWini import *
 
 class Template:
 
 	def __init__(self):
 		self.errors = Errors()
-		self.settings = []
+		self.settings = {}
 		pass
 
 	def read_settings(self, arguments):

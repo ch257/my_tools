@@ -1,31 +1,26 @@
-RWFile = {}
+# -*- coding: utf-8 -*
 
-function RWFile:new(errors)
-	newObj = {
-		file_handler = nil,
+from modules.python.common.Errors import *
+
+class RWFile:
+	def __init__(self, errors):
 		errors = errors
-	}
-	self.__index = self
-	return setmetatable(newObj, self)
-end
+		file_handler = None
 
-function RWFile:open_file(file_path, mode)
-	self.file_handler = io.open(file_path or '', mode or 'r')
-	if self.file_handler == nil then
-		self.errors:raise_error('Can\'t open file "' .. (file_path or '') .. '"')
-	end
-end
+	def open_file(self, file_path, mode):
+		try:
+			self.handler = open(path, mode, encoding = encoding)
+		except Exception as e:
+			self._errors.raise_error('Can\'t open file "' + file_path + '"') 
 
-function RWFile:read_line()
-	return self.file_handler:read("*l")
-end
+	def read_line(self):
+		line = self.handler.readline()
+		return line
+	
+	def write_line(self, line):
+		self.handler.write(line + "\n")
 
-function RWFile:write_line(line)
-	self.file_handler:write(line .. '\n')
-end
-
-function RWFile:close_file()
-	if self.file_handler ~= nil then
-		io.close(self.file_handler)
-	end
-end
+	def close_file(self):
+		if self.file_handler:
+			self.handler.close()
+			self.handler = None
