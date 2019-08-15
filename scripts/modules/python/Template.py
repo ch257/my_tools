@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
-import re
-import sys
+# import re
+# import sys
 
 from modules.python.common.Errors import *
 from modules.python.common.RWini import *
@@ -14,8 +14,7 @@ class Template:
 
 	def read_settings(self, arguments):
 		rw_ini = RWini(self.errors)
-		script_file_folder = (re.match(".*\\\\", sys.argv[0])).group(0)
-		print(sys.argv[0])
+		# script_file_folder = (re.match(".*\\\\", sys.argv[0])).group(0)
 		for i in range(1, len(arguments)):
 			# ini_file_path = script_file_folder + "..\\" + arguments[i]
 			ini_file_path = arguments[i]

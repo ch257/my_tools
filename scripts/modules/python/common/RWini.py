@@ -12,9 +12,12 @@ class RWini:
 
 	def parse_line(self, line):
 		section, param, value = None, None, None
-		# line = line.rstrip(' \t').lstrip(' \t')
-		line = line[0:line.find(';')]
-		if line == '':
+		line = line.rstrip(' \t').lstrip(' \t')
+		commebt_smb_pos = line.find(';')
+		if commebt_smb_pos > -1:
+			line = line[0:commebt_smb_pos]
+		
+		if line != '':
 			if line[0:1] == '[' and line[-1:] == ']':
 				section = line[1:-1]
 			else:
@@ -28,12 +31,10 @@ class RWini:
 		ini_file_iterator.open_file(ini_file_path)
 		section, param, value, mem_section = None, None, None, None
 
+		cnt = 1
 		while not ini_file_iterator.eof:
-			# break
 			line = ini_file_iterator.next_line()
 			section, param, value = self.parse_line(line)
-			print(param)
-			
 		# if section ~= nil then
 			# if self.settings[section] == nil then
 				# self.settings[section] = {}
@@ -46,6 +47,10 @@ class RWini:
 			# self.settings[mem_section][param] = value
 		# end
 	# end
+			if cnt == 3:
+				break
+			cnt = cnt + 1
+			
 		ini_file_iterator.close_file()
 	# self.settings['ini_file_path'] = self.settings['ini_file_path'] .. ini_file_path .. ';'
 		return self.settings
