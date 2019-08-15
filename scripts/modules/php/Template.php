@@ -1,5 +1,5 @@
 <?php
-require_once('C:\Churilin\progs\php\vendor\jpgraph-4.2.7\src\jpgraph.php');
+require_once('C:\Churilin\progs\php72\vendor\jpgraph-4.2.7\src\jpgraph.php');
 
 class Template {
 	function __construct() {
