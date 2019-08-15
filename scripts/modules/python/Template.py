@@ -23,9 +23,9 @@ class Template:
 	# rw_ini:copy_settings(rw_ini.settings, self.settings, nil)
 	# rw_ini:compose_settings(self.settings)
 	
-		print(rw_ini.settings)
+		# print(rw_ini.settings)
 	
-	# -- rw_ini:print_settings(self.settings)
+		rw_ini.print_settings(rw_ini.settings)
 # end
 		pass
 

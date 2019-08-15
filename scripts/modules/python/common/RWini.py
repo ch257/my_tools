@@ -44,10 +44,6 @@ class RWini:
 			if self.settings.get(mem_section) != None and param != None and value != None:
 				self.settings[mem_section][param] = value
 			
-			# if cnt == 3:
-				# break
-			# cnt = cnt + 1
-			
 		ini_file_iterator.close_file()
 		self.settings['ini_file_path'] = self.settings['ini_file_path'] + ini_file_path + ';'
 		return self.settings
@@ -74,27 +70,24 @@ class RWini:
 
 # end
 
-# function RWini:print_settings(settings)
-	# local offset = 4
-	# f = function(settings, offset)
-		# local str = ''
-		# for k,v in pairs(settings) do
-			# if type(v) == 'table' then
-				# str = str .. string.rep(' ', offset) .. '"' .. k .. '": {\n'
-				# local s = f(v, offset + offset)
-				# if s ~= '' then
-					# str = str .. string.sub(s, 1, -3) .. '\n'
-				# end
-				# str = str .. string.rep(' ', offset) .. '},\n'
-			# else
-				# str = str .. string.rep(' ', offset) .. '"' .. k .. '": "' .. v:gsub('\\', '\\\\') .. '",\n'
-			# end
-		# end
-		# return str
-	# end
-	
-	# print('{\n' .. string.sub(f(settings, offset), 1, -3) .. '\n}')
-# end
+	def print_settings(self, settings):
+		offset = 4
+		print(settings)
+		def f (settings, offset):
+			str = ''
+			for k in settings:
+				v = settings[k]
+				if type(v) == dict:
+					str = str + ' '*offset + '"' + k + '": {\n'
+					s = f(v, offset + offset)
+					if s != '':
+						str = str + s[0: -2] + '\n'
+					str = str + ' '*offset + '},\n'
+				else:
+					str = str + ' '*offset + '"' + k + '": "' + v.replace('\\', '\\\\') + '",\n'
+			return str
+		
+		print('{\n' + f(settings, offset)[1: -2] + '\n}')
 
 # function RWini:copy_settings(from_settings, to_settings, key)
 	# for k,v in pairs(from_settings) do
