@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*
 
-from modules.python.common.Errors import *
-
 class RWFile:
 	def __init__(self, errors):
 		self.errors = errors
