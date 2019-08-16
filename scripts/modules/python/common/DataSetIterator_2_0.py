@@ -29,7 +29,7 @@ class DataSetIterator:
 	def next_row(self):
 		self.row_count = self.row_count + 1
 		self.sods = False
-		if self.row_count > len(self.data_set[0]) - 1:
+		if self.row_count >= len(self.data_set[0]) - 1:
 			self.row_count = len(self.data_set[0]) - 1
 			self.eods = True
 		self.get_rec()
