@@ -8,65 +8,54 @@ class CSVFile:
 	def __init__(self, errors):
 		self.errors = errors
 
-	# function CSVFile:define_cast_functions(columns, file_format)
-		# local cast = {}
+	def define_cast_functions(self, columns, file_format):
+		cast = {}
 		
-		# set_func = function(col_cnt, value_type, cast)
-			# if value_type == 'num' then
-				# cast[col_cnt] = function(value)
-					# if value == '' then
-						# return value
-					# else
-						# return tonumber(value)
-					# end
-				# end
-			# elseif value_type == 'str' then
-				# cast[col_cnt] = function(value)
-					# return value
-				# end
-			# elseif value_type == 'ddmmyy' then
-				# cast[col_cnt] = function(value)
-					# return {
-						# day = tonumber(string.sub(value, 1,2)),
-						# month = tonumber(string.sub(value, 3,4)),
-						# year = tonumber(string.sub(value, 5,6))
-					# }
-				# end
-			# elseif value_type == 'yyyymmdd' then
-				# cast[col_cnt] = function(value)
-					# return {
-						# day = tonumber(string.sub(value, 7,8)),
-						# month = tonumber(string.sub(value, 5,6)),
-						# year = tonumber(string.sub(value, 1,4))
-					# }
-				# end
-			# elseif value_type == 'hhmmss' then
-				# cast[col_cnt] = function(value)
-					# return {
-						# hour = tonumber(string.sub(value, 1,2)),
-						# min = tonumber(string.sub(value, 3,4)),
-						# sec = tonumber(string.sub(value, 5,6))
-					# }
-				# end
-			# else
-				# cast[col_cnt] = function(value)
-					# self.errors:raise_error('Unknown type for column \'' .. tostring(columns[col_cnt]))
-					# return 'UnknownType'
-				# end
-			# end
-		# end
+		def to_num(value):
+			if value == '':
+				return value
+			else:
+				return float(value)
+				
+		def to_str(value):
+			return value
 		
-		# for col_cnt=1, #columns do
-			# if file_format['column_type'][columns[col_cnt]] then
-				# value_type = file_format['column_type'][columns[col_cnt]]
-			# else
-				# value_type = file_format['column_type']['default']
-			# end
-			# set_func(col_cnt, value_type, cast)
-		# end
+		def ddmmyy_to_date(value):
+			return value
+			
+		def yyyymmdd_to_date(value):
+			return value
 		
-		# return cast
-	# end
+		def hhmmss_to_time(value):
+			return value
+			
+		def UnknownType(value):
+			self.errors:raise_error('Unknown type for column \'' + tostring(columns[col_cnt]))
+			return 'UnknownType'
+		
+		def set_func (col_cnt, value_type, cast):
+			if value_type == 'num':
+				cast[col_cnt] = to_num
+			elif value_type == 'str':
+				cast[col_cnt] = to_str
+			elif value_type == 'ddmmyy':
+				cast[col_cnt] = ddmmyy_to_date
+			elif value_type == 'yyyymmdd':
+				cast[col_cnt] = yyyymmdd_to_date
+			elif value_type == 'hhmmss':
+				cast[col_cnt] = hhmmss_to_time
+			else:
+				cast[col_cnt] = UnknownType
+
+		for col_cnt in range(len(columns)):
+			if file_format['column_type'].get(columns[col_cnt]) != None:
+				value_type = file_format['column_type'][columns[col_cnt]]
+			else:
+				value_type = file_format['column_type']['default']
+			
+			set_func(col_cnt, value_type, cast)
+		
+		return cast
 
 	# function CSVFile:define_format_str_functions(columns, file_format)
 		# local format_str = {}
@@ -159,7 +148,7 @@ class CSVFile:
 		file = RWFile(self.errors)
 		
 		columns = self.define_columns(file_path, file_format)
-		# local cast = self:define_cast_functions(columns, file_format)
+		cast = self.define_cast_functions(columns, file_format)
 		
 		data_set = ds_tools.create_data_set(columns, file_format)
 		
@@ -176,7 +165,7 @@ class CSVFile:
 			if line != '':
 				row_data = line.split(column_separator)
 				for col_cnt in range(len(data_set['columns'])):
-					data_set[col_cnt].append('') #(cast[col_cnt](row_data[col_cnt]))
+					data_set[col_cnt].append(cast[col_cnt](row_data[col_cnt]))
 			
 			# -- break
 		# end
