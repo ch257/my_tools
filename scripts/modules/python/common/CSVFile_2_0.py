@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*
 
 from modules.python.common.DataSetTools_2_0 import *
+from modules.python.common.RWFile_1_0 import *
 
 class CSVFile:
 
@@ -129,66 +130,57 @@ class CSVFile:
 		# return format_str
 	# end
 
-	# function CSVFile:define_columns(file_path, file_format)
-		# local columns = {}
-		# local string_tools = StringTools:new(errors)
-		# local column_separator = file_format['column_separator']
-		# local file = RWFile:new(self.errors)
+	def define_columns(self, file_path, file_format):
+		columns = {}
+		column_separator = file_format['column_separator']
+		file = RWFile(self.errors)
 		
-		# file:open_file(file_path, 'r')
-		# if self.errors.error_occured then
-			# return columns
-		# end
+		file.open_file(file_path, 'r')
+		if self.errors.error_occured:
+			return columns
 
-		# if file_format['has_header'] == '1' then
-			# line = file:read_line()
-			# if line ~= nil then
-				# columns = string_tools:split(line, column_separator)
-			# end
-		# else
-			# line = file:read_line()
-			# if line ~= nil then
-				# for i = 1, #string_tools:split(line, column_separator) do
-					# table.insert(columns, i)
-				# end
-			# end
-		# end
-		# file:close_file()
-		# return columns
-	# end
+		if file_format['has_header'] == '1':
+			line = file.read_line()
+			if line != '':
+				columns = line.split(column_separator)
+		else:
+			line = file.read_line()
+			if line != '':
+				for i in range(len(line.split(column_separator))):
+					columns.append(i)
+		file.close_file()
+		return columns
 
 	def read_data_set(self, file_path, file_format):
 		data_set = {}
 		cast = {}
 		# local string_tools = StringTools:new(errors)
 		ds_tools = DataSetTools(self.errors)
-		# local file = RWFile:new(self.errors)
+		file = RWFile(self.errors)
 		
-		# local columns = self:define_columns(file_path, file_format)
+		columns = self.define_columns(file_path, file_format)
 		# local cast = self:define_cast_functions(columns, file_format)
 		
-		# data_set = ds_tools:create_data_set(columns, file_format)
+		data_set = ds_tools.create_data_set(columns, file_format)
 		
-		# file:open_file(file_path, 'r')
-		# if file_format['has_header'] == '1' then
-			# line = file:read_line()
-		# end
+		file.open_file(file_path, 'r')
+		if file_format['has_header'] == '1':
+			line = file.read_line()
 		
-		# local column_separator = file_format['column_separator']
-		# while not self.errors.error_occured do
-			# line = file:read_line()
-			# if line == nil then
-				# break
-			# end
-			# if line ~= '' then
-				# row_data = string_tools:split(line, column_separator)
-				# for col_cnt=1, #data_set['columns'] do
-					# table.insert(data_set[col_cnt], cast[col_cnt](row_data[col_cnt]))
-				# end
-			# end
+		column_separator = file_format['column_separator']
+		while not self.errors.error_occured:
+			line = file.read_line()
+			if line == '':
+				break
+			line = line.rstrip('\n')
+			if line != '':
+				row_data = line.split(column_separator)
+				# for col_cnt in range(len(data_set['columns'])):
+					# data_set[col_cnt].append('') #(cast[col_cnt](row_data[col_cnt]))
+			
 			# -- break
 		# end
-		# file:close_file()
+		file.close_file()
 		
 		# return data_set
 	# end
