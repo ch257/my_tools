@@ -2,7 +2,7 @@
 
 class DataSetIterator:
 
-	def __init__(self, errors, data_set, columns, index):
+	def __init__(self, errors, data_set, columns, index=None):
 		pass
 		# local columns = columns
 		# if columns == nil or #columns == 0 then
@@ -10,7 +10,7 @@ class DataSetIterator:
 		# end
 		# newObj = {
 			# errors = errors,
-			# eods = false,
+		self.eods = False
 			# sods = true,
 			# row_count = 0,
 			# data_set = data_set,
@@ -36,7 +36,7 @@ class DataSetIterator:
 		# return self.rec
 	# end
 
-	# function DataSetIterator:next_row()
+	def next_row(self):
 		# self.row_count = self.row_count + 1
 		# self.sods = false
 			
@@ -47,6 +47,7 @@ class DataSetIterator:
 		# self:get_rec()
 		# return self.rec
 	# end
+		pass
 
 	# function DataSetIterator:next_row_by_index()
 		# self.row_count = self.row_count + 1

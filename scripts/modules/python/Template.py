@@ -3,6 +3,7 @@
 from modules.python.common.Errors_1_0 import *
 from modules.python.common.RWini_1_0 import *
 from modules.python.common.CSVFile_2_0 import *
+from modules.python.common.DataSetIterator_2_0 import *
 
 
 class Template:
@@ -34,8 +35,10 @@ class Template:
 		csv_file = CSVFile(self.errors)
 		data_set = csv_file.read_data_set(input_file_path, input_file_format)
 		
-		
-		
+		ds_iterator = DataSetIterator(self.errors, data_set, {})
+		while not ds_iterator.eods:
+			ds_iterator.next_row()
+			break
 		
 		
 		
