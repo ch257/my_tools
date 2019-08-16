@@ -132,7 +132,7 @@ end
 
 function CSVFile:define_columns(file_path, file_format)
 	local columns = {}
-	local string_tools = StringTools:new(errors)
+	local string_tools = StringTools:new(self.errors)
 	local column_separator = file_format['column_separator']
 	local file = RWFile:new(self.errors)
 	
@@ -161,8 +161,8 @@ end
 function CSVFile:read_data_set(file_path, file_format)
 	local data_set = {}
 	local cast = {}
-	local string_tools = StringTools:new(errors)
-	local ds_tools = DataSetTools:new(errors)
+	local string_tools = StringTools:new(self.errors)
+	local ds_tools = DataSetTools:new(self.errors)
 	local file = RWFile:new(self.errors)
 	
 	local columns = self:define_columns(file_path, file_format)
@@ -195,7 +195,7 @@ function CSVFile:read_data_set(file_path, file_format)
 end
 
 function CSVFile:write_data_set(data_set, columns, file_path, file_format)
-	local string_tools = StringTools:new(errors)
+	local string_tools = StringTools:new(self.errors)
 	local file = RWFile:new(self.errors)
 	local line = ''
 	local column_separator = file_format['column_separator']
