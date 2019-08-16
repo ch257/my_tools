@@ -41,45 +41,45 @@ class DataSetTools:
 		# end
 	# end
 
-	# -- function DataSetTools:define_rec_gets_sets(rec, column, column_type)
-		# -- if column_type == 'num' then
-			# -- rec['get'][column] = function()
-				# -- if rec[column] == '' then
-					# -- return nil
-				# -- else
-					# -- return rec[column]
-				# -- end
-			# -- end
-			# -- rec['set'][column] = function(value)
-				# -- if value == nil then
-					# -- rec[column] = ''
-				# -- else
-					# -- rec[column] = value
-				# -- end
-			# -- end
-		# -- else
-			# -- rec['get'][column] = function()
-				# -- return rec[column]
-			# -- end
-			# -- rec['set'][column] = function(value)
-				# -- rec[column] = value
-			# -- end
-		# -- end
-	# -- end
+	# function DataSetTools:define_rec_gets_sets(rec, column, column_type)
+		# if column_type == 'num' then
+			# rec['get'][column] = function()
+				# if rec[column] == '' then
+					# return nil
+				# else
+					# return rec[column]
+				# end
+			# end
+			# rec['set'][column] = function(value)
+				# if value == nil then
+					# rec[column] = ''
+				# else
+					# rec[column] = value
+				# end
+			# end
+		# else
+			# rec['get'][column] = function()
+				# return rec[column]
+			# end
+			# rec['set'][column] = function(value)
+				# rec[column] = value
+			# end
+		# end
+	# end
 
-	# -- function DataSetTools:create_rec(columns, ds_format)
-		# -- local rec = {}
-		# -- rec['columns'] = columns
-		# -- rec['get'] = {}
-		# -- rec['set'] = {}
-		# -- local column_type
-		# -- for col_cnt=1, #columns do
-			# -- column_type = self:get_column_type(columns[col_cnt], ds_format)
-			# -- self:define_rec_gets_sets(rec, columns[col_cnt], column_type)
-			# -- rec[columns[col_cnt]] = ''
-		# -- end
-		# -- return rec
-	# -- end
+	# function DataSetTools:create_rec(columns, ds_format)
+		# local rec = {}
+		# rec['columns'] = columns
+		# rec['get'] = {}
+		# rec['set'] = {}
+		# local column_type
+		# for col_cnt=1, #columns do
+			# column_type = self:get_column_type(columns[col_cnt], ds_format)
+			# self:define_rec_gets_sets(rec, columns[col_cnt], column_type)
+			# rec[columns[col_cnt]] = ''
+		# end
+		# return rec
+	# end
 
 	# function DataSetTools:create_data_set(columns, ds_format)
 		# local data_set = {}
