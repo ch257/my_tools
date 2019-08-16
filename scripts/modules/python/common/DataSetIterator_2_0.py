@@ -2,32 +2,22 @@
 
 class DataSetIterator:
 
-	def __init__(self, errors, data_set, columns, index=None):
-		pass
-		# local columns = columns
-		# if columns == nil or #columns == 0 then
-			# columns = data_set['columns']
-		# end
-		# newObj = {
-			# errors = errors,
+	def __init__(self, errors, data_set, columns={}, index=None):
+		self.columns = columns
+		if len(columns) == 0:
+			self.columns = data_set['columns']
+		self.errors = errors
 		self.eods = False
-			# sods = true,
-			# row_count = 0,
-			# data_set = data_set,
-			# columns = columns,
-			# rec = {},
-			# index = index
-		# }
-		# self.__index = self
-		# return setmetatable(newObj, self)
-	# end
+		self.sods = True
+		self.row_count = -1
+		self.data_set = data_set
+		self.rec = {}
+		self.index = index
 
-	# function DataSetIterator:get_rec()
-		# for col_cnt=1, #self.columns do
-			# local col_idx = self.data_set['col_idx'][self.columns[col_cnt]]
-			# self.rec[self.columns[col_cnt]] = self.data_set.get[col_idx](self.row_count)
-		# end
-	# end
+	def get_rec(self):
+		for col_cnt in range(len(self.columns)):
+			col_idx = self.data_set['col_idx'][self.columns[col_cnt]]
+			self.rec[self.columns[col_cnt]] = self.data_set[col_idx][self.row_count]
 
 	# function DataSetIterator:get_rec_by_index()
 		# for col_cnt=1, #self.columns do
@@ -37,17 +27,13 @@ class DataSetIterator:
 	# end
 
 	def next_row(self):
-		# self.row_count = self.row_count + 1
-		# self.sods = false
-			
-		# if self.row_count >= #self.data_set[1] then
-			# self.row_count = #self.data_set[1]
-			# self.eods = true
-		# end
-		# self:get_rec()
-		# return self.rec
-	# end
-		pass
+		self.row_count = self.row_count + 1
+		self.sods = False
+		if self.row_count >= len(self.data_set[0]):
+			self.row_count = len(self.data_set[0])
+			self.eods = True
+		self.get_rec()
+		return self.rec
 
 	# function DataSetIterator:next_row_by_index()
 		# self.row_count = self.row_count + 1

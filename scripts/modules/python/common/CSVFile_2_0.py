@@ -181,9 +181,7 @@ class CSVFile:
 			# -- break
 		# end
 		file.close_file()
-		
-		# return data_set
-	# end
+		return data_set
 
 	# function CSVFile:write_data_set(data_set, columns, file_path, file_format)
 		# local string_tools = StringTools:new(errors)

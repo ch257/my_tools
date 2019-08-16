@@ -83,8 +83,8 @@ class DataSetTools:
 		data_set = {}
 		data_set['columns'] = columns
 		data_set['col_idx'] = {}
-		data_set['get'] = {}
-		data_set['set'] = {}
+		# data_set['get'] = {}
+		# data_set['set'] = {}
 		
 		for col_cnt in range(len(columns)):
 			data_set[col_cnt] = []

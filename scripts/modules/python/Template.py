@@ -35,9 +35,13 @@ class Template:
 		csv_file = CSVFile(self.errors)
 		data_set = csv_file.read_data_set(input_file_path, input_file_format)
 		
-		ds_iterator = DataSetIterator(self.errors, data_set, {})
+		# print(data_set)
+		
+		ds_iterator = DataSetIterator(self.errors, data_set)
+		ds_rec = {}
 		while not ds_iterator.eods:
-			ds_iterator.next_row()
+			ds_rec = ds_iterator.next_row()
+			print(ds_rec)
 			break
 		
 		
