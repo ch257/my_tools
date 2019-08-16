@@ -81,23 +81,20 @@ class DataSetTools:
 		# return rec
 	# end
 
-	# function DataSetTools:create_data_set(columns, ds_format)
-		# local data_set = {}
-		# data_set['columns'] = columns
-		# data_set['col_idx'] = {}
-		# data_set['get'] = {}
-		# data_set['set'] = {}
+	def create_data_set(self, columns, ds_format):
+		data_set = {}
+		data_set['columns'] = columns
+		data_set['col_idx'] = {}
+		data_set['get'] = {}
+		data_set['set'] = {}
 		
-		# local column_type
-		# for col_cnt=1, #columns do
-			# data_set[col_cnt] = {}
-			# data_set['col_idx'][columns[col_cnt]] = col_cnt
+		for col_cnt in range(len(columns)):
+			data_set[col_cnt] = {}
+			data_set['col_idx'][columns[col_cnt]] = col_cnt
 			# column_type = self:get_column_type(columns[col_cnt], ds_format)
 			# self:define_ds_gets_sets(data_set, col_cnt, column_type)
-		# end
 		
-		# return data_set
-	# end
+		return data_set
 
 	# function DataSetTools:add_columns(data_set, cols, col_types)
 		# local old_col_count = #data_set['columns']
