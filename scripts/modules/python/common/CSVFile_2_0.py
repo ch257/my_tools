@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*
 
+import time
+import datetime
+from datetime import datetime as dt, date, time as tm
+
 from modules.python.common.DataSetTools_2_0 import *
 from modules.python.common.RWFile_1_0 import *
 
@@ -20,14 +24,11 @@ class CSVFile:
 		def to_str(value):
 			return value
 		
-		def ddmmyy_to_date(value):
-			return value
-			
 		def yyyymmdd_to_date(value):
-			return value
+			return dt.strptime(value, '%Y%m%d') #.date()
 		
 		def hhmmss_to_time(value):
-			return value
+			return dt.strptime(value, '%H%M%S') #.time()
 			
 		def UnknownType(value):
 			self.errors:raise_error('Unknown type for column \'' + tostring(columns[col_cnt]))
@@ -38,8 +39,6 @@ class CSVFile:
 				cast[col_cnt] = to_num
 			elif value_type == 'str':
 				cast[col_cnt] = to_str
-			elif value_type == 'ddmmyy':
-				cast[col_cnt] = ddmmyy_to_date
 			elif value_type == 'yyyymmdd':
 				cast[col_cnt] = yyyymmdd_to_date
 			elif value_type == 'hhmmss':
