@@ -5,15 +5,13 @@ class DataSetTools:
 	def __init__(self, errors):
 		self.errors = errors
 
-	# function DataSetTools:get_column_type(column, ds_format)
-		# local column_type
-		# if ds_format['column_type'][column] then
-			# column_type = ds_format['column_type'][column]
-		# else
-			# column_type = ds_format['column_type']['default']
-		# end
-		# return column_type
-	# end
+	def get_column_type(self, column, ds_format):
+		column_type = None
+		if ds_format['column_type'].get(column) != None:
+			column_type = ds_format['column_type'][column]
+		else:
+			column_type = ds_format['column_type']['default']
+		return column_type
 
 	# function DataSetTools:define_ds_gets_sets(data_set, col_cnt, column_type)
 		# if column_type == 'num' then
@@ -89,9 +87,9 @@ class DataSetTools:
 		data_set['set'] = {}
 		
 		for col_cnt in range(len(columns)):
-			data_set[col_cnt] = {}
+			data_set[col_cnt] = []
 			data_set['col_idx'][columns[col_cnt]] = col_cnt
-			# column_type = self:get_column_type(columns[col_cnt], ds_format)
+			column_type = self.get_column_type(columns[col_cnt], ds_format)
 			# self:define_ds_gets_sets(data_set, col_cnt, column_type)
 		
 		return data_set

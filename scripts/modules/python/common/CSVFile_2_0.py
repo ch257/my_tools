@@ -175,8 +175,8 @@ class CSVFile:
 			line = line.rstrip('\n')
 			if line != '':
 				row_data = line.split(column_separator)
-				# for col_cnt in range(len(data_set['columns'])):
-					# data_set[col_cnt].append('') #(cast[col_cnt](row_data[col_cnt]))
+				for col_cnt in range(len(data_set['columns'])):
+					data_set[col_cnt].append('') #(cast[col_cnt](row_data[col_cnt]))
 			
 			# -- break
 		# end
