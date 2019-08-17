@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 
-from modules.python.common.FileLinesIterator_1_0 import *
+from common.FileLinesIterator_1_0 import *
 
 class RWini:
 	def __init__(self, errors):

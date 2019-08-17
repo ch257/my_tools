@@ -4,8 +4,8 @@ import time
 import datetime
 from datetime import datetime as dt, date, time as tm
 
-from modules.python.common.DataSetTools_2_0 import *
-from modules.python.common.RWFile_1_0 import *
+from common.DataSetTools_2_0 import *
+from common.RWFile_1_0 import *
 
 class CSVFile:
 

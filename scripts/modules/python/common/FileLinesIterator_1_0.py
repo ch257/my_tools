@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 
-from modules.python.common.RWFile_1_0 import *
+from common.RWFile_1_0 import *
 
 class FileLinesIterator:
 
