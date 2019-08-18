@@ -12,6 +12,7 @@ class Plotter:
 		self.settings = {}
 		self.ax = []
 		self.subplot_offset = 0
+		self.ohlc_series = {}
 		
 	def create_subplot(self, subplot_index, subplots_number, subplot_height_share):
 		if subplot_index == 0:
@@ -80,27 +81,46 @@ class Plotter:
 			
 		return seria_format
 	
+	
+	
 	def bind_seria_to_subplot(self, seria, subplot_index, seria_format):
-		x_ticks = np.arange(0, len(seria), 1)
-		seria = np.array(seria).astype(np.double)
-		if seria_format['ignore_missed_data'] == '1':
-			s_mask = np.isfinite(seria)
-			self.ax[subplot_index].plot(x_ticks[s_mask], seria[s_mask],
-				# seria_format['marker'] + 
-				'-',
-				color = seria_format['line_color'],
-				linewidth = seria_format['line_width'],
-				markersize = seria_format['marker_size'],
-				alpha = seria_format['alpha']
-			)
+		if seria_format['line_type'] == 'ohlc_o':
+			self.ohlc_series['o'] = seria
+		elif seria_format['line_type'] == 'ohlc_h':
+			self.ohlc_series['h'] = seria
+		elif seria_format['line_type'] == 'ohlc_l':
+			self.ohlc_series['l'] = seria
+		elif seria_format['line_type'] == 'ohlc_c':
+			self.ohlc_series['c'] = seria
+			x_ticks = range(len(seria))
+			ohlc = []
+			for x_tick in x_ticks:
+				ohlc.append((x_tick, self.ohlc_series['o'][x_tick], self.ohlc_series['h'][x_tick], self.ohlc_series['l'][x_tick], self.ohlc_series['c'][x_tick]))
+			candlestick_ohlc(self.ax[subplot_index], ohlc, width = 1, colorup = 'green', colordown = 'red', alpha = 0.7)
 		else:
-			self.ax[subplot_index].plot(x_ticks, seria,
-				'.-',
-				color = seria_format['line_color'],
-				linewidth = seria_format['line_width'],
-				markersize = seria_format['marker_size'],
-				alpha = seria_format['alpha']
-			)
+			x_ticks = np.arange(0, len(seria), 1)
+			seria = np.array(seria).astype(np.double)
+			if seria_format['ignore_missed_data'] == '1':
+				s_mask = np.isfinite(seria)
+				self.ax[subplot_index].plot(x_ticks[s_mask], seria[s_mask],
+					linestyle = '--',
+					linewidth = 3,
+					color = 'red',
+					marker = 'o',
+					markeredgewidth = 0,
+					markeredgecolor = 'green',
+					markersize = 10,
+					markerfacecolor = 'green'
+				)
+				
+			else:
+				self.ax[subplot_index].plot(x_ticks, seria,
+					'.-',
+					# color = seria_format['line_color'],
+					linewidth = seria_format['line_width'],
+					markersize = seria_format['marker_size'],
+					alpha = seria_format['alpha']
+				)
 		
 	def create_label(self, value, format):
 		if format == 'dd-mm':
@@ -183,11 +203,13 @@ class Plotter:
 			subplot_index = int(settings['plot_params']['subplot_column_binding'][column]) - 1
 			seria_format = self.set_seria_format(column, settings)
 			self.bind_seria_to_subplot(data_set[col_idx], subplot_index, seria_format)
+			# break
 			
 		# self.set_x_labels(subplots_number, data, x_ticks_data_columns, x_ticks, x_labels_format)
 			
 		plt.tight_layout()
-		# plt.savefig(output_fig_folder + output_fig_prefix_name + output_fig_ext, dpi = 100)
+		plt.savefig(output_fig_folder + output_fig_prefix_name + output_fig_ext, dpi = 100)
+		# plt.show()
 		plt.close()
 		
 		
