@@ -60,7 +60,7 @@ function Template:main(arguments)
 		
 		if ds_iterator.row_count % 2 == 0 then
 			add_cols_rec['<ZZ1>'] = 100 + ds_iterator.row_count
-			add_cols_rec['<ZZ2>']= nil
+			add_cols_rec['<ZZ2>'] = nil
 		else
 			add_cols_rec['<ZZ1>'] = nil
 			add_cols_rec['<ZZ2>'] = 100 + ds_iterator.row_count
