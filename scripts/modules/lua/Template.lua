@@ -6,6 +6,8 @@ dofile(script_file_folder .. "modules\\lua\\common\\StringTools_1_0.lua")
 dofile(script_file_folder .. "modules\\lua\\common\\CSVFile_2_0.lua")
 dofile(script_file_folder .. "modules\\lua\\common\\DataSetIterator_2_0.lua")
 dofile(script_file_folder .. "modules\\lua\\common\\DataSetTools_2_0.lua")
+dofile(script_file_folder .. "modules\\lua\\common\\FS_1_0.lua")
+dofile(script_file_folder .. "modules\\lua\\common\\Logger_2_0.lua")
 
 Template = {}
 
