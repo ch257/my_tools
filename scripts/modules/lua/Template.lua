@@ -45,7 +45,7 @@ function Template:main(arguments)
 	local output_file_path = self.settings['files']['output_file_folder'] .. self.settings['files']['output_file_name']
 	local output_file_format = self.settings['files']['output_file_format']
 	local log_settings = self.settings['log']
-	local logger = Logger:new(self.errors, log_settings)
+	local logger = Logger:new(self.errors)
 	
 	local csv_file = CSVFile:new(self.errors)
 	local ds_tools = DataSetTools:new(self.errors)
@@ -57,6 +57,7 @@ function Template:main(arguments)
 	local add_cols_rec = {}
 	
 	local ds_iterator = DataSetIterator:new(self.errors, data_set)
+	logger:init(log_settings, data_set)
 	while not ds_iterator.eods do
 		rec = ds_iterator:next_row()
 		
@@ -75,10 +76,11 @@ function Template:main(arguments)
 		if ds_iterator.row_count % 10 == 0 then
 			logger:add_event(ds_iterator.row_count)
 		end
-		logger:auto_save(ds_iterator.row_count)
+		logger:auto_save_events(ds_iterator.row_count)
 	end
+	logger:save_remained_events(ds_iterator.row_count)
 	
-	-- csv_file:print_data_set(data_set, {'<DATE>', '<TIME>', '<ZZ1>', '<ZZ2>'}, output_file_format)
+	csv_file:print_data_set(data_set, {'<DATE>', '<TIME>', '<ZZ1>', '<ZZ2>'}, output_file_format)
 	csv_file:write_data_set(data_set, {}, output_file_path, output_file_format)
 	
 	

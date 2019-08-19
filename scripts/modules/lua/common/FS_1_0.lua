@@ -19,13 +19,13 @@ function FS:clear_folder(folder_path)
 			else
 				res = os.execute('rd /q/s ' .. folder_path .. fname)
 			end
-		
-			if not res then
-				self.errors:raise_error('critical', 'Can\'t clear folder ' .. folder_path)
+			
+			if res == nil then
+				self.errors:raise_error('Can\'t clear folder \'' .. folder_path .. '\'')
 				return nil
 			end
 		end
 	else 
-		self.errors:raise_error('critical', 'Folder path is empty')
+		self.errors:raise_error('Folder path is empty')
 	end
 end

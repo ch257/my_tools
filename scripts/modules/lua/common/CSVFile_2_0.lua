@@ -237,6 +237,50 @@ function CSVFile:write_data_set(data_set, columns, file_path, file_format)
 	file:close_file()
 end
 
+function CSVFile:write_data_set_chunk(data_set, columns, start_index, stop_index, file_path, file_format)
+	local string_tools = StringTools:new(self.errors)
+	local file = RWFile:new(self.errors)
+	local line = ''
+	local column_separator = file_format['column_separator']
+	
+	local columns = columns
+	if columns == nil or #columns == 0 then
+		columns = data_set['columns']
+	end
+	
+	local format_str = self:define_format_str_functions(data_set['columns'], file_format)
+	
+	file:open_file(file_path, 'w')
+	if self.errors.error_occured then
+		return nil
+	end
+	
+	if file_format['has_header'] == '1' then
+		for col_cnt=1, #columns do
+			line = line .. tostring(columns[col_cnt]) .. column_separator
+		end
+		if line ~= '' then
+			file:write_line(string.sub(line, 1, -(string.len(column_separator) + 1)))
+		end
+	end
+	
+	if data_set[1] ~= nil then
+		stop_index = math.min(#data_set[1], stop_index)
+		for row_cnt=start_index, stop_index do
+			line = ''
+			for col_cnt=1, #columns do
+				local col_idx = data_set['col_idx'][columns[col_cnt]]
+				line = line .. format_str[col_idx](data_set[col_idx][row_cnt]) .. column_separator
+			end
+			if line ~= '' then
+				file:write_line(string.sub(line, 1, -(string.len(column_separator) + 1)))
+			end
+			-- break
+		end
+	end
+	file:close_file()
+end
+
 function CSVFile:print_data_set(data_set, columns, file_format)
 	local line = ''
 	local column_separator = file_format['column_separator']
