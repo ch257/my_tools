@@ -4,7 +4,9 @@ function Logger:new(errors, settings)
 	newObj = {
 		errors = errors,
 		settings = settings,
-		events = {}
+		events = {},
+		chunk_length = tonumber(settings['chunk_length']),
+		after_event_length = tonumber(settings['after_event_length'])
 		-- log_file = RWFile:new(errors),
 		-- tools = Tools:new(errors),
 		-- fs = FS:new(errors),
@@ -33,20 +35,21 @@ function Logger:add_event(index)
 	table.insert(self.events, index)
 end
 
--- function Logger:auto_save(index)
-	-- local to_remove = {}
-	-- local offset = 0
-	-- for i = 1, #self.events do
-		-- if index - self.events[i] >= self.after_event_length then
+function Logger:auto_save(index)
+	local to_remove = {}
+	local offset = 0
+	for i = 1, #self.events do
+		if index - self.events[i] >= self.after_event_length then
 			-- self:save(index - self.chunk_length + 1, index)
-			-- table.insert(to_remove, i - offset)
-			-- offset = offset + 1
-		-- end
-	-- end
-	-- for i = 1, #to_remove do
-		-- table.remove(self.events, to_remove[i])
-	-- end
--- end
+			print(tostring(index - self.chunk_length + 1) .. ':' .. tostring(index))
+			table.insert(to_remove, i - offset)
+			offset = offset + 1
+		end
+	end
+	for i = 1, #to_remove do
+		table.remove(self.events, to_remove[i])
+	end
+end
 
 -- function Logger:save_remained_events(index)
 	-- for i = 1, #self.events do

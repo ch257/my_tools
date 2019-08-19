@@ -75,14 +75,12 @@ function Template:main(arguments)
 		if ds_iterator.row_count % 10 == 0 then
 			logger:add_event(ds_iterator.row_count)
 		end
+		logger:auto_save(ds_iterator.row_count)
 	end
 	
 	-- csv_file:print_data_set(data_set, {'<DATE>', '<TIME>', '<ZZ1>', '<ZZ2>'}, output_file_format)
 	csv_file:write_data_set(data_set, {}, output_file_path, output_file_format)
 	
-	for i=1, #logger.events do
-		print(logger.events[i])
-	end
 	
 	if self.errors.error_occured  then
 		self.errors:print_errors()
