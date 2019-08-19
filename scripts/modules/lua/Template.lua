@@ -40,10 +40,12 @@ function Template:main(arguments)
 		-- return false
 	-- end
 	
-	input_file_path = self.settings['files']['input_file_folder'] .. self.settings['files']['input_file_name']
-	input_file_format = self.settings['files']['input_file_format']
-	output_file_path = self.settings['files']['output_file_folder'] .. self.settings['files']['output_file_name']
-	output_file_format = self.settings['files']['output_file_format']
+	local input_file_path = self.settings['files']['input_file_folder'] .. self.settings['files']['input_file_name']
+	local input_file_format = self.settings['files']['input_file_format']
+	local output_file_path = self.settings['files']['output_file_folder'] .. self.settings['files']['output_file_name']
+	local output_file_format = self.settings['files']['output_file_format']
+	local log_settings = self.settings['log']
+	local logger = Logger:new(self.errors, log_settings)
 	
 	local csv_file = CSVFile:new(self.errors)
 	local ds_tools = DataSetTools:new(self.errors)
@@ -69,10 +71,18 @@ function Template:main(arguments)
 		local close = rec['<CLOSE>']
 		
 		ds_tools:update_row(data_set, add_cols_rec, {'<ZZ1>', '<ZZ2>'}, ds_iterator.row_count)
+		
+		if ds_iterator.row_count % 10 == 0 then
+			logger:add_event(ds_iterator.row_count)
+		end
 	end
 	
-	csv_file:print_data_set(data_set, {'<DATE>', '<TIME>', '<ZZ1>', '<ZZ2>'}, output_file_format)
+	-- csv_file:print_data_set(data_set, {'<DATE>', '<TIME>', '<ZZ1>', '<ZZ2>'}, output_file_format)
 	csv_file:write_data_set(data_set, {}, output_file_path, output_file_format)
+	
+	for i=1, #logger.events do
+		print(logger.events[i])
+	end
 	
 	if self.errors.error_occured  then
 		self.errors:print_errors()
