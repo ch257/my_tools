@@ -96,7 +96,7 @@ class Plotter:
 			ohlc = []
 			for x_tick in x_ticks:
 				ohlc.append((x_tick, self.ohlc_series['o'][x_tick], self.ohlc_series['h'][x_tick], self.ohlc_series['l'][x_tick], self.ohlc_series['c'][x_tick]))
-			candlestick_ohlc(self.ax[subplot_index], ohlc, width = 1, colorup = 'green', colordown = 'red', alpha = 0.7)
+			candlestick_ohlc(self.ax[subplot_index], ohlc, width = 1, colorup = 'green', colordown = 'red', alpha = 1)
 		else:
 			x_ticks = np.arange(0, len(seria), 1)
 			seria = np.array(seria).astype(np.double)
