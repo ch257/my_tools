@@ -44,7 +44,7 @@ function Template:main(arguments)
 	local input_file_format = self.settings['files']['input_file_format']
 	local output_file_path = self.settings['files']['output_file_folder'] .. self.settings['files']['output_file_name']
 	local output_file_format = self.settings['files']['output_file_format']
-	local log_settings = self.settings['log']
+	local log_settings = self.settings['logging']
 	local logger = Logger:new(self.errors)
 	
 	local csv_file = CSVFile:new(self.errors)
